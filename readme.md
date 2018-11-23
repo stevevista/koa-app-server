@@ -5,7 +5,7 @@
 
 # Usage
 ```
-const {Koa, Static, WebSocket} = require('koa-server')
+const {Koa, Static, WebSocket} = require('koa-app-server')
 
 app.use(WebSocket(wsRouter.routes()))
 

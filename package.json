@@ -1,21 +1,21 @@
 {
   "name": "koa-app-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "a simple koa http server, simplify websocket and https configuartion",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stevevista/koa-server.git"
+    "url": "git+https://github.com/stevevista/koa-app-server.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "R.J.",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/stevevista/koa-server/issues"
+    "url": "https://github.com/stevevista/koa-app-server/issues"
   },
-  "homepage": "https://github.com/stevevista/koa-server#readme",
+  "homepage": "https://github.com/stevevista/koa-app-server#readme",
   "dependencies": {
     "etag": "^1.8.1",
     "fresh": "^0.5.2",
