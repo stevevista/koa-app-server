@@ -2,6 +2,14 @@
 - Static Server
 - WebSocket
 - Https
+- Cluster
+
+# API
+## Koa
+- use(Static(path, localpath, optinos = {gzip: true}))
+- use(WebSocket(routerMiddleware))
+ - listen(option = {port, ssl = {key, cert}})
+ - start(option = {port, ssl = {key, cert}, cluster}, function({master, numCPUs}))
 
 # Usage
 ```
@@ -18,13 +26,16 @@ app.use(WebSocket(wsRouter.routes()))
 
 app.use(Static('/', path.join(__dirname, './public'), {gzip: true}))
 
-app.listen({
+app.start({
   port: 8080,
-  //sslOption: {
+  //ssl: {
   //  key: ...
   //  cert: ...
   //  port: 443
-  //}
+  //},
+  cluster: true
+}, ({master, numCPUs}) => {
+  console.log('server started')
 })
 
 ```

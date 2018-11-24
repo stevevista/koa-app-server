@@ -1,6 +1,6 @@
 {
   "name": "koa-app-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "a simple koa http server, simplify websocket and https configuartion",
   "main": "index.js",
   "scripts": {

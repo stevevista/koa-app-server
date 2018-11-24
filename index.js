@@ -5,6 +5,7 @@ const url = require('url')
 const http = require('http')
 const https = require('https')
 const compose = require('koa-compose')
+const cluster = require('cluster')
 
 const Static = require('./static')
 
@@ -18,14 +19,13 @@ class Koa extends KoaBase {
   constructor() {
     super()
     this.wsRoutes = []
-    this._use = super.use
   }
 
   use(handle) {
     if (handle.name === '__websocketRouteWrap') {
       this.wsRoutes.push(handle())
     } else {
-      this._use(handle)
+      super.use(handle)
     }
 
     return this
@@ -41,9 +41,9 @@ class Koa extends KoaBase {
     const server = http.createServer(this.callback())
     server.listen(optinos.port || 80)
     
-    if (optinos.sslOption) {
-      httpsServer = https.createServer(optinos.sslOption, this.callback())
-      httpsServer.listen(optinos.sslOption.port || 443)
+    if (optinos.ssl) {
+      httpsServer = https.createServer(optinos.ssl, this.callback())
+      httpsServer.listen(optinos.ssl.port || 443)
     }
 
     // websocket
@@ -74,6 +74,46 @@ class Koa extends KoaBase {
       if (httpsServer) {
         bindWsServer(httpsServer)
       }
+    }
+  }
+
+  start(optinos = 80, callback = ()=> {}) {
+    if (typeof optinos !== 'object') {
+      optinos = { port: optinos }
+    }
+
+    let numCPUs = 1
+    if (optinos.cluster) {
+      numCPUs = optinos.cluster.numCPUs || require('os').cpus().length
+    }
+
+    if (numCPUs > 1) {
+      if (cluster.isMaster) {
+        for (let i = 0; i < numCPUs; i++) {
+          cluster.fork()
+        }
+      
+        cluster.on('exit', (worker, code, signal) => {
+          setTimeout(() => cluster.fork(), 2000)
+        })
+
+        callback({
+          master: true,
+          numCPUs
+        })
+      } else {
+        this.listen(optinos)
+        callback({
+          master: false,
+          numCPUs
+        })
+      }
+    } else {
+      this.listen(optinos)
+      callback({
+        master: true,
+        numCPUs
+      })
     }
   }
 }
