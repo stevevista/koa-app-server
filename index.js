@@ -19,6 +19,17 @@ class Koa extends KoaBase {
   constructor() {
     super()
     this.wsRoutes = []
+
+    // route error handle
+    this.use(async (ctx, next) => {
+      try {
+        await next()
+      } catch (e) {
+        ctx.status = e.status || 500
+        e.ctx = ctx
+        this.emit('error', e)
+      }
+    })
   }
 
   use(handle) {

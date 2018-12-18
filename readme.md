@@ -22,6 +22,15 @@ wsRouter.all('/:topic', async ctx => {
   ctx.websocket.send(`Connect on ${ctx.params.topic}`)
 })
 
+const app = new Koa()
+
+app.on('error', err => {
+  if (err.ctx) {
+    const ctx = err.ctx
+    ctx.body = err.message
+  }
+})
+
 app.use(WebSocket(wsRouter.routes()))
 
 app.use(Static('/', path.join(__dirname, './public'), {gzip: true}))
