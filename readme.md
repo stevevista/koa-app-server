@@ -25,11 +25,11 @@
 ```
 const Router = require('koa-router')
 const path = require('path')
-const {Koa, Static, WebSocket} = require('koa-app-server')
+const {Koa, Static, WebSocketRouter} = require('koa-app-server')
 
-const wsRouter = new Router()
+const wsRouter = new WebSocketRouter()
 
-wsRouter.all('/:topic', async ctx => {
+wsRouter.route('/:topic', async ctx => {
   ctx.websocket.send(`Connect on ${ctx.params.topic}`)
 })
 
@@ -42,7 +42,7 @@ app.on('error', err => {
   }
 })
 
-app.use(WebSocket(wsRouter.routes()))
+app.use(wsRouter)
 
 app.use(Static('/', path.join(__dirname, './public'), {gzip: true}))
 
