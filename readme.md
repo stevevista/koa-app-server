@@ -1,15 +1,16 @@
-# Features
-- Static Server
-- WebSocket
-- Https
-- Cluster
+## Server
+- Koa
 
-# API
-## Koa
-- use(Static(path, localpath, optinos = {gzip: true}))
-- use(WebSocket(routerMiddleware))
- - listen(option = {port, ssl = {key, cert}})
- - start(option = {port, ssl = {key, cert}, cluster}, function({master, numCPUs}))
+extend Koa with WebSocket, Static and GraphQL
+## Middlewares
+- Static
+- WebSocketRouter
+- GraphQL
+
+## API
+### Koa
+ - Koa##server(options? number|Option) : {http, https, ws, wss}
+ - Koa##start(options, function({master, numCPUs, servers}))
 
 ### Option
 - port (default: 80)
@@ -20,6 +21,37 @@
   - key (content)
   - cert (content) 
   - port (default: 443)
+
+### Middlewares
+ - Static(path, virtualPath, options)
+ - GraphQL(graphqlPath, ExecutableSchema, serverOptions)
+ - WebSocketRouter#route(path, ...middleware)
+
+# Code Examples
+- GraphQL
+
+If schema contains Subscription, start app will create websocket on the path
+```
+
+const typeDefs = `
+type Subscription {
+  somethingChanged: Result
+}
+`;
+
+const resolvers = {
+    somethingChanged: {
+      subscribe: () => pubsub.asyncIterator(SOMETHING_CHANGED_TOPIC),
+    }
+  },
+};
+
+const schema = makeExecutableSchema({typeDefs, resolvers});
+
+app.use(GraphQL('/GQL', schema, {}))
+
+```
+
 
 # Usage
 ```
