@@ -21,6 +21,7 @@ extend Koa with WebSocket, Static and GraphQL
   - key (content)
   - cert (content) 
   - port (default: 443)
+  - sslOnly (false)
 
 ### Middlewares
  - Static(path, virtualPath, options)

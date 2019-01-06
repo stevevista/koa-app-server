@@ -18,7 +18,8 @@ app.start({
   ssl: {
     dir: '../ssl',
   //  cert: ...
-    port: 443
+    port: 4433,
+    sslOnly: false
   }
 }, ({master, numCPUs}) => {
   console.log('server started')
