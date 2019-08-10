@@ -9,17 +9,14 @@ extend Koa with WebSocket, Static and GraphQL
 
 ## API
 ### Koa
- - Koa##server(options? number|Option) : {http, https, ws, wss}
  - Koa##start(options, function({master, numCPUs, servers}))
 
 ### Option
 - port (default: 80)
-- cluster (boolean or object)
-  - numCPUs
+- cluster (boolean or number)
 - ssl
-  - dir (path which contain key / cert files)
-  - key (content)
-  - cert (content) 
+  - key (content or path)
+  - cert (content or path) 
   - port (default: 443)
   - sslOnly (false)
 

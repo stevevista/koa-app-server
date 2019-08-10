@@ -1,6 +1,6 @@
 {
   "name": "koa-app-server",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "a simple koa http server, simplify websocket and https configuartion",
   "main": "index.js",
   "scripts": {
@@ -17,14 +17,13 @@
   },
   "homepage": "https://github.com/stevevista/koa-app-server#readme",
   "dependencies": {
-    "apollo-server-koa": "^2.3.1",
+    "apollo-server-koa": "^2.8.1",
     "etag": "^1.8.1",
     "fresh": "^0.5.2",
     "graphql": "^14.0.2",
     "koa": "^2.6.2",
     "koa-compose": "^4.1.0",
     "koa-send": "^5.0.0",
-    "mqtt": "^2.18.8",
     "path-to-regexp": "^2.4.0",
     "ws": "^6.1.2"
   }
