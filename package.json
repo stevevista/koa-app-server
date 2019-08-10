@@ -1,6 +1,6 @@
 {
   "name": "koa-app-server",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "a simple koa http server, simplify websocket and https configuartion",
   "main": "index.js",
   "scripts": {
@@ -25,6 +25,6 @@
     "koa-compose": "^4.1.0",
     "koa-send": "^5.0.0",
     "path-to-regexp": "^2.4.0",
-    "ws": "^6.1.2"
+    "ws": "^7.1.1"
   }
 }

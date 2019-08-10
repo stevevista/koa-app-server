@@ -10,15 +10,33 @@ extend Koa with WebSocket, Static and GraphQL
 ## API
 ### Koa
  - Koa##start(options, function({master, numCPUs, servers}))
+    - options.port (default: 80)
+    - options.cluster (boolean or number)
+    - options.ssl
+      - key (content or path)
+      - cert (content or path) 
+      - port (default: 443)
+      - sslOnly (false) 
+  - staticRoute(path, options, ...middlewares)
+    - options.gzip (default true)
+    - options.root (required, dish static file path)
 
-### Option
-- port (default: 80)
-- cluster (boolean or number)
-- ssl
-  - key (content or path)
-  - cert (content or path) 
-  - port (default: 443)
-  - sslOnly (false)
+    options.root and path should be both file or directory
+
+  - wsRoute(path, ...middlewares, wshandler)
+
+    ctx will associate with websocket proerty
+
+```js
+app.staticRoute('/test.html', {
+  root: path.join(__dirname, './public/real_test.html')
+})
+
+app.staticRoute('/res', {
+  root: path.join(__dirname, './public/res_dir')
+})
+
+```    
 
 ### Middlewares
  - Static(path, virtualPath, options)
@@ -52,16 +70,9 @@ app.use(GraphQL('/GQL', schema, {}))
 
 
 # Usage
-```
-const Router = require('koa-router')
+```js
 const path = require('path')
-const {Koa, Static, WebSocketRouter} = require('koa-app-server')
-
-const wsRouter = new WebSocketRouter()
-
-wsRouter.route('/:topic', async ctx => {
-  ctx.websocket.send(`Connect on ${ctx.params.topic}`)
-})
+const {Koa} = require('koa-app-server')
 
 const app = new Koa()
 
@@ -72,9 +83,11 @@ app.on('error', err => {
   }
 })
 
-app.use(wsRouter)
+app.wsRoute('/:topic', async ctx => {
+  ctx.websocket.send(`Connect on ${ctx.params.topic}`)
+})
 
-app.use(Static('/', path.join(__dirname, './public'), {gzip: true}))
+app.staticRoute('/', {gzip: true, root: path.join(__dirname, './public')})
 
 app.start({
   port: 8080,

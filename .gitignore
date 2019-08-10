@@ -7,8 +7,6 @@ storage
 release
 tmp
 *.sqlite
-tests/*
-!tests/*.js
 ssl
 package-lock.json
 npm-debug.log
